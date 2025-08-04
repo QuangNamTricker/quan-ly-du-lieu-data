@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Khách Hàng Pro</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar animate__animated animate__fadeInLeft">
+            <div class="logo">
+                <i class="fas fa-database"></i>
+                <span>CRM PRO</span>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active"><a href="#dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#customers"><i class="fas fa-users"></i> Khách Hàng</a></li>
+                    <li><a href="#statistics"><i class="fas fa-chart-bar"></i> Thống Kê</a></li>
+                    <li><a href="#settings"><i class="fas fa-cog"></i> Cài Đặt</a></li>
+                </ul>
+            </nav>
+            <div class="sync-status">
+                <div class="sync-info">
+                    <i class="fas fa-cloud"></i>
+                    <span id="syncStatus">Chưa đồng bộ</span>
+                </div>
+                <button id="syncNow" class="btn-sync">
+                    <i class="fas fa-sync-alt"></i> Đồng Bộ
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header animate__animated animate__fadeInDown">
+                <div class="header-left">
+                    <h1 id="pageTitle">Quản Lý Khách Hàng</h1>
+                    <div class="breadcrumb">
+                        <span>Dashboard</span> / <span>Khách Hàng</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" alt="User">
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Widgets -->
+            <section id="dashboardWidgets" class="dashboard-section animate__animated animate__fadeIn">
+                <div class="widget-row">
+                    <div class="widget card total-customers">
+                        <div class="widget-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>Tổng Khách Hàng</h3>
+                            <span id="totalCustomers">0</span>
+                        </div>
+                        <div class="widget-trend up">
+                            <i class="fas fa-arrow-up"></i> 12%
+                        </div>
+                    </div>
+
+                    <div class="widget card popular-product">
+                        <div class="widget-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>Sản Phẩm Phổ Biến</h3>
+                            <span id="popularProduct">-</span>
+                        </div>
+                        <div class="widget-trend down">
+                            <i class="fas fa-arrow-down"></i> 5%
+                        </div>
+                    </div>
+
+                    <div class="widget card recent-activity">
+                        <div class="widget-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="widget-info">
+                            <h3>Hoạt Động Gần Đây</h3>
+                            <span id="recentActivity">-</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Management Section -->
+            <section id="customerSection" class="customer-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-friends"></i> Quản Lý Khách Hàng</h2>
+                    <div class="action-buttons">
+                        <button id="importBtn" class="btn-import">
+                            <i class="fas fa-file-import"></i> Nhập Excel/CSV
+                        </button>
+                        <div class="export-dropdown">
+                            <button class="btn-export">
+                                <i class="fas fa-file-export"></i> Xuất Dữ Liệu <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="export-menu">
+                                <a href="#" id="exportExcel"><i class="fas fa-file-excel"></i> Excel</a>
+                                <a href="#" id="exportCSV"><i class="fas fa-file-csv"></i> CSV</a>
+                                <a href="#" id="exportPDF"><i class="fas fa-file-pdf"></i> PDF</a>
+                            </div>
+                        </div>
+                        <button id="addCustomerBtn" class="btn-primary">
+                            <i class="fas fa-plus"></i> Thêm Khách Hàng
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Customer Form (Hidden by default) -->
+                <div id="customerFormContainer" class="form-container hidden">
+                    <form id="customerForm" class="customer-form">
+                        <div class="form-header">
+                            <h3 id="formTitle">Thêm Khách Hàng Mới</h3>
+                            <button type="button" id="closeForm" class="btn-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="customerName">Tên Khách Hàng <span class="required">*</span></label>
+                                <input type="text" id="customerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerProduct">Sản Phẩm <span class="required">*</span></label>
+                                <input type="text" id="customerProduct" list="productList" required>
+                                <datalist id="productList">
+                                    <!-- Will be populated by JavaScript -->
+                                </datalist>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone">Số Điện Thoại <span class="required">*</span></label>
+                                <input type="tel" id="customerPhone" required>
+                                <div id="phoneError" class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerCategory">Phân Loại</label>
+                                <select id="customerCategory">
+                                    <option value="regular">Thường</option>
+                                    <option value="vip">VIP</option>
+                                    <option value="potential">Tiềm Năng</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="customerNote">Ghi Chú</label>
+                                <textarea id="customerNote" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancelForm" class="btn-secondary">Hủy Bỏ</button>
+                            <button type="submit" id="submitForm" class="btn-primary">
+                                <i class="fas fa-save"></i> Lưu Thông Tin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Customer Table -->
+                <div class="table-container">
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="customerSearch" placeholder="Tìm kiếm khách hàng...">
+                        </div>
+                        <div class="table-actions">
+                            <button id="clearFilters" class="btn-secondary">
+                                <i class="fas fa-filter"></i> Xóa Bộ Lọc
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="customerTable">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th class="sortable" data-sort="time">Thời Gian <i class="fas fa-sort"></i></th>
+                                    <th class="sortable" data-sort="name">Tên <i class="fas fa-sort"></i></th>
+                                    <th class="sortable" data-sort="product">Sản Phẩm <i class="fas fa-sort"></i></th>
+                                    <th>SĐT</th>
+                                    <th>Phân Loại</th>
+                                    <th>Ghi Chú</th>
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-footer">
+                        <div class="table-info">
+                            Hiển thị <span id="startItem">1</span>-<span id="endItem">10</span> của <span id="totalItems">0</span> bản ghi
+                        </div>
+                        <div class="pagination">
+                            <button id="firstPage" disabled><i class="fas fa-angle-double-left"></i></button>
+                            <button id="prevPage" disabled><i class="fas fa-angle-left"></i></button>
+                            <div class="page-numbers" id="pageNumbers"></div>
+                            <button id="nextPage" disabled><i class="fas fa-angle-right"></i></button>
+                            <button id="lastPage" disabled><i class="fas fa-angle-double-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Statistics Section -->
+            <section id="statisticsSection" class="statistics-section hidden">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-pie"></i> Thống Kê & Báo Cáo</h2>
+                    <div class="time-filter">
+                        <select id="timeRange">
+                            <option value="7days">7 ngày qua</option>
+                            <option value="30days">30 ngày qua</option>
+                            <option value="month">Tháng này</option>
+                            <option value="quarter">Quý này</option>
+                            <option value="year">Năm nay</option>
+                            <option value="all">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stats-card card">
+                        <h3>Phân Phối Khách Hàng Theo Loại</h3>
+                        <div class="chart-container">
+                            <canvas id="customerTypeChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="stats-card card">
+                        <h3>Sản Phẩm Bán Chạy</h3>
+                        <div class="chart-container">
+                            <canvas id="popularProductsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="stats-card card full-width">
+                        <h3>Lịch Sử Hoạt Động</h3>
+                        <div class="activity-log">
+                            <div class="activity-list" id="activityList">
+                                <!-- Activity logs will be added here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Hidden file input for import -->
+        <input type="file" id="fileImport" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+
+        <!-- Modal for import results -->
+        <div id="importModal" class="modal hidden">
+            <div class="modal-content animate__animated animate__zoomIn">
+                <div class="modal-header">
+                    <h3>Kết Quả Nhập Liệu</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="import-result">
+                        <div class="result-item success">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="importSuccessCount">0</span> bản ghi thành công
+                        </div>
+                        <div class="result-item error">
+                            <i class="fas fa-times-circle"></i>
+                            <span id="importErrorCount">0</span> bản ghi lỗi
+                        </div>
+                    </div>
+                    <div class="import-errors" id="importErrors">
+                        <!-- Error details will be shown here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="confirmImport" class="btn-primary">Xác Nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts/libs/xlsx.full.min.js"></script>
+    <script src="scripts/libs/pdfmake.min.js"></script>
+    <script src="scripts/libs/vfs_fonts.js"></script>
+    
+    <!-- App Scripts -->
+    <script src="scripts/utils/export.js"></script>
+    <script src="scripts/utils/import.js"></script>
+    <script src="scripts/utils/statistics.js"></script>
+    <script src="scripts/utils/sync.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
