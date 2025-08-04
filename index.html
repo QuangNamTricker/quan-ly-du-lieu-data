@@ -8,6 +8,270 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    :root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --warning-color: #f39c12;
+  --dark-color: #2c3e50;
+  --light-color: #ecf0f1;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+header h1 {
+  color: var(--dark-color);
+  margin-bottom: 10px;
+  font-size: 2.2rem;
+}
+
+header p {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+.form-section, .table-section {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.form-section h2, .table-section h2 {
+  color: var(--dark-color);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: var(--dark-color);
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.error-message {
+  color: var(--danger-color);
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: none;
+}
+
+.btn-submit {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-submit:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.table-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+#searchInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-clear {
+  background-color: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-clear:hover {
+  background-color: #c0392b;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 500;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 3px;
+  color: var(--primary-color);
+  transition: var(--transition);
+}
+
+.action-btn:hover {
+  color: #2980b9;
+  transform: scale(1.1);
+}
+
+.action-btn.delete {
+  color: var(--danger-color);
+}
+
+.action-btn.delete:hover {
+  color: #c0392b;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 4px;
+  color: white;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  transition: var(--transition);
+}
+
+.notification.success {
+  background-color: var(--secondary-color);
+}
+
+.notification.error {
+  background-color: var(--danger-color);
+}
+
+.notification.warning {
+  background-color: var(--warning-color);
+}
+
+.hidden {
+  display: none;
+}
+
+/* Hiệu ứng khi thêm mới hàng */
+@keyframes fadeInRow {
+  from {
+      opacity: 0;
+      transform: translateY(10px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.new-row {
+  animation: fadeInRow 0.5s ease-out;
+  background-color: rgba(46, 204, 113, 0.1) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main {
+      grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 <body>
     <div class="container">
@@ -75,6 +339,427 @@
         <div id="notification" class="notification hidden"></div>
     </div>
 
-    <script src="scripts/app.js"></script>
+    <script>
+        /**
+ * Customer Data Management System
+ * 
+ * Features:
+ * - Add new customer with validation
+ * - Check for duplicate phone numbers
+ * - Edit/Delete existing entries
+ * - Search functionality
+ * - Data persistence using localStorage
+ * - Responsive notifications
+ */
+
+// IIFE (Immediately Invoked Function Expression) to avoid global scope pollution
+(function() {
+  'use strict';
+
+  // Constants
+  const STORAGE_KEY = 'customerData';
+  const NOTIFICATION_DURATION = 3000;
+  const DEBOUNCE_DELAY = 300;
+
+  // DOM Elements
+  const dataForm = document.getElementById('dataForm');
+  const nameInput = document.getElementById('name');
+  const productInput = document.getElementById('product');
+  const phoneInput = document.getElementById('phone');
+  const noteInput = document.getElementById('note');
+  const phoneError = document.getElementById('phoneError');
+  const dataTable = document.getElementById('dataTable')?.getElementsByTagName('tbody')[0];
+  const searchInput = document.getElementById('searchInput');
+  const clearStorageBtn = document.getElementById('clearStorage');
+  const notification = document.getElementById('notification');
+
+  // Current editing state
+  let currentEditId = null;
+
+  // Initialize the application
+  function init() {
+      if (!dataForm || !dataTable) {
+          console.error('Required DOM elements not found');
+          return;
+      }
+
+      setupEventListeners();
+      initializeStorage();
+      displayData();
+  }
+
+  // Set up all event listeners
+  function setupEventListeners() {
+      dataForm.addEventListener('submit', handleFormSubmit);
+      searchInput.addEventListener('input', debounce(handleSearch, DEBOUNCE_DELAY));
+      clearStorageBtn.addEventListener('click', handleClearStorage);
+  }
+
+  // Initialize localStorage if empty
+  function initializeStorage() {
+      try {
+          if (!localStorage.getItem(STORAGE_KEY)) {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+          }
+      } catch (error) {
+          showNotification('Lỗi khi khởi tạo bộ nhớ cục bộ', 'error');
+          console.error('Storage initialization error:', error);
+      }
+  }
+
+  // Get all customer data from storage
+  function getCustomerData() {
+      try {
+          const data = localStorage.getItem(STORAGE_KEY);
+          return data ? JSON.parse(data) : [];
+      } catch (error) {
+          showNotification('Lỗi khi đọc dữ liệu', 'error');
+          console.error('Error reading customer data:', error);
+          return [];
+      }
+  }
+
+  // Save customer data to storage
+  function saveCustomerData(data) {
+      try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          return true;
+      } catch (error) {
+          showNotification('Lỗi khi lưu dữ liệu', 'error');
+          console.error('Error saving customer data:', error);
+          return false;
+      }
+  }
+
+  // Handle form submission
+  function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const formData = getFormData();
+      if (!validateForm(formData)) return;
+
+      const customerData = getCustomerData();
+      const duplicateEntry = findDuplicatePhone(formData.phone, currentEditId);
+
+      if (duplicateEntry) {
+          showDuplicatePhoneError(duplicateEntry);
+          return;
+      }
+
+      if (currentEditId) {
+          updateCustomer(currentEditId, formData);
+      } else {
+          addNewCustomer(formData);
+      }
+
+      resetForm();
+      displayData();
+  }
+
+  // Get form data as an object
+  function getFormData() {
+      return {
+          name: nameInput.value.trim(),
+          product: productInput.value.trim(),
+          phone: phoneInput.value.trim(),
+          note: noteInput.value.trim()
+      };
+  }
+
+  // Validate form inputs
+  function validateForm(formData) {
+      let isValid = true;
+
+      // Reset previous errors
+      phoneError.style.display = 'none';
+      phoneInput.style.borderColor = '#ddd';
+
+      if (!formData.name) {
+          isValid = false;
+          setInputError(nameInput, 'Vui lòng nhập tên khách hàng');
+      }
+
+      if (!formData.product) {
+          isValid = false;
+          setInputError(productInput, 'Vui lòng nhập sản phẩm');
+      }
+
+      if (!formData.phone) {
+          isValid = false;
+          setInputError(phoneInput, 'Vui lòng nhập số điện thoại');
+      } else if (!isValidPhone(formData.phone)) {
+          isValid = false;
+          setInputError(phoneInput, 'Số điện thoại không hợp lệ');
+      }
+
+      return isValid;
+  }
+
+  // Check if phone number is valid
+  function isValidPhone(phone) {
+      // Basic phone validation - adjust according to your requirements
+      return /^[0-9]{10,15}$/.test(phone);
+  }
+
+  // Set input error state
+  function setInputError(input, message) {
+      const errorElement = input.nextElementSibling?.classList.contains('error-message') 
+          ? input.nextElementSibling 
+          : document.createElement('div');
+      
+      errorElement.className = 'error-message';
+      errorElement.textContent = message;
+      errorElement.style.display = 'block';
+      
+      if (!input.nextElementSibling?.classList.contains('error-message')) {
+          input.insertAdjacentElement('afterend', errorElement);
+      }
+      
+      input.style.borderColor = 'var(--danger-color)';
+      input.focus();
+  }
+
+  // Find duplicate phone number
+  function findDuplicatePhone(phone, excludeId = null) {
+      const customerData = getCustomerData();
+      return customerData.find(item => 
+          item.phone === phone && (!excludeId || item.id !== excludeId)
+      );
+  }
+
+  // Show duplicate phone error
+  function showDuplicatePhoneError(duplicateEntry) {
+      phoneError.textContent = `SĐT đã tồn tại cho khách hàng: ${duplicateEntry.name}`;
+      phoneError.style.display = 'block';
+      phoneInput.style.borderColor = 'var(--danger-color)';
+      phoneInput.focus();
+  }
+
+  // Add new customer
+  function addNewCustomer(formData) {
+      const customerData = getCustomerData();
+      const newCustomer = {
+          id: Date.now(),
+          time: new Date().toLocaleString(),
+          ...formData
+      };
+
+      customerData.push(newCustomer);
+      if (saveCustomerData(customerData)) {
+          showNotification('Thêm khách hàng thành công!', 'success');
+      }
+  }
+
+  // Update existing customer
+  function updateCustomer(id, formData) {
+      const customerData = getCustomerData();
+      const updatedData = customerData.map(item => 
+          item.id === id 
+              ? { ...item, ...formData, time: new Date().toLocaleString() } 
+              : item
+      );
+
+      if (saveCustomerData(updatedData)) {
+          showNotification('Cập nhật thông tin thành công!', 'success');
+          currentEditId = null;
+      }
+  }
+
+  // Handle search input
+  function handleSearch() {
+      displayData(searchInput.value.trim());
+  }
+
+  // Handle clear storage
+  function handleClearStorage() {
+      if (confirm('Bạn có chắc chắn muốn xóa toàn bộ dữ liệu? Hành động này không thể hoàn tác.')) {
+          if (saveCustomerData([])) {
+              showNotification('Đã xóa toàn bộ dữ liệu', 'warning');
+              displayData();
+          }
+      }
+  }
+
+  // Display customer data in table
+  function displayData(searchTerm = '') {
+      if (!dataTable) return;
+
+      const customerData = getCustomerData();
+      const filteredData = filterData(customerData, searchTerm);
+
+      renderTable(filteredData);
+  }
+
+  // Filter data based on search term
+  function filterData(data, searchTerm) {
+      if (!searchTerm) return data;
+
+      const term = searchTerm.toLowerCase();
+      return data.filter(item => 
+          item.name.toLowerCase().includes(term) ||
+          item.product.toLowerCase().includes(term) ||
+          item.phone.includes(searchTerm) ||
+          (item.note && item.note.toLowerCase().includes(term))
+      );
+  }
+
+  // Render data table
+  function renderTable(data) {
+      dataTable.innerHTML = '';
+
+      if (data.length === 0) {
+          renderNoDataRow();
+          return;
+      }
+
+      data.forEach((item, index) => {
+          const row = document.createElement('tr');
+          row.classList.add('new-row');
+          row.innerHTML = createTableRowHTML(item, index);
+          dataTable.appendChild(row);
+
+          // Remove animation class after animation completes
+          setTimeout(() => {
+              row.classList.remove('new-row');
+          }, 500);
+
+          // Add event listeners to action buttons
+          addRowEventListeners(row, item.id);
+      });
+  }
+
+  // Create HTML for a table row
+  function createTableRowHTML(item, index) {
+      return `
+          <td>${index + 1}</td>
+          <td>${item.time}</td>
+          <td>${item.name}</td>
+          <td>${item.product}</td>
+          <td>${item.phone}</td>
+          <td>${item.note || '-'}</td>
+          <td>
+              <button class="action-btn edit" data-id="${item.id}">
+                  <i class="fas fa-edit"></i>
+              </button>
+              <button class="action-btn delete" data-id="${item.id}">
+                  <i class="fas fa-trash"></i>
+              </button>
+          </td>
+      `;
+  }
+
+  // Render row when no data exists
+  function renderNoDataRow() {
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 7;
+      cell.textContent = 'Không có dữ liệu khách hàng';
+      cell.style.textAlign = 'center';
+      cell.style.padding = '20px';
+      cell.style.color = '#7f8c8d';
+      row.appendChild(cell);
+      dataTable.appendChild(row);
+  }
+
+  // Add event listeners to row action buttons
+  function addRowEventListeners(row, id) {
+      const editBtn = row.querySelector('.edit');
+      const deleteBtn = row.querySelector('.delete');
+
+      if (editBtn) {
+          editBtn.addEventListener('click', () => editCustomer(id));
+      }
+
+      if (deleteBtn) {
+          deleteBtn.addEventListener('click', () => deleteCustomer(id));
+      }
+  }
+
+  // Edit customer
+  function editCustomer(id) {
+      const customerData = getCustomerData();
+      const customer = customerData.find(item => item.id === id);
+
+      if (customer) {
+          currentEditId = id;
+          populateForm(customer);
+          scrollToForm();
+      }
+  }
+
+  // Populate form with customer data
+  function populateForm(customer) {
+      nameInput.value = customer.name;
+      productInput.value = customer.product;
+      phoneInput.value = customer.phone;
+      noteInput.value = customer.note || '';
+  }
+
+  // Delete customer
+  function deleteCustomer(id) {
+      if (confirm('Bạn có chắc chắn muốn xóa khách hàng này?')) {
+          const customerData = getCustomerData();
+          const updatedData = customerData.filter(item => item.id !== id);
+
+          if (saveCustomerData(updatedData)) {
+              showNotification('Đã xóa khách hàng', 'warning');
+              displayData();
+              
+              // Reset form if editing the deleted customer
+              if (currentEditId === id) {
+                  resetForm();
+                  currentEditId = null;
+              }
+          }
+      }
+  }
+
+  // Reset form
+  function resetForm() {
+      dataForm.reset();
+      phoneError.style.display = 'none';
+      phoneInput.style.borderColor = '#ddd';
+  }
+
+  // Scroll to form section
+  function scrollToForm() {
+      document.querySelector('.form-section')?.scrollIntoView({ 
+          behavior: 'smooth' 
+      });
+      nameInput.focus();
+  }
+
+  // Show notification
+  function showNotification(message, type) {
+      if (!notification) return;
+
+      notification.textContent = message;
+      notification.className = `notification ${type}`;
+      notification.classList.remove('hidden');
+
+      setTimeout(() => {
+          notification.classList.add('hidden');
+      }, NOTIFICATION_DURATION);
+  }
+
+  // Debounce function for search input
+  function debounce(func, delay) {
+      let timeoutId;
+      return function(...args) {
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(() => {
+              func.apply(this, args);
+          }, delay);
+      };
+  }
+
+  // Initialize the application when DOM is loaded
+  if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+  } else {
+      init();
+  }
+})();
+    </script>
 </body>
 </html>
